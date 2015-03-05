@@ -222,7 +222,6 @@ Initialize the custom tables
 >`cd /usr/lib/ckan/default/src/ckanext-api`<br>
 >`paster --plugin=ckan initdb -c /etc/ckan/default/development.ini`<br>
 
-------------------------------------------------------
 It's Okay! next,  to synchronous production deployment
 ------------------------------------------------------
 
