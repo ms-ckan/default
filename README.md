@@ -1,5 +1,11 @@
 CKAN Offical Document：http://docs.ckan.org/en/latest/
 
+<strong>Environment:<strong><br>
+Ubuntu: 12.04 LTS #(14.04 LTS maybe wrong!)<br>
+CKAN: 2.2.1<br>
+Apache: 2.2<br>
+PostgreSQL: 9.1
+
 ### 1. Install the required packages
 >`sudo apt-get install python-dev postgresql libpq-dev python-pip python-virtualenv git-core solr-jetty openjdk-6-jdk`
 
@@ -203,4 +209,20 @@ You should get something like:
 
 >`sudo apt-get install python-dev libxml2-dev libxslt1-dev libgeos-c1`
 
+Initialize the custom tables
+============================
+<Strong>Tips!</Strong>The plugin named ckanext-api is custom extentsion. 
+
+1) Add the plugin:
+>`vim /etc/ckan/default/development.ini`<br>
+>`ckan.plugins = (others) api`<br>
+
+2) Create tables:
+>`. /usr/lib/ckan/default/bin/activate`<br>
+>`cd /usr/lib/ckan/default/src/ckanext-api`<br>
+>`paster --plugin=ckan initdb -c /etc/ckan/default/development.ini`<br>
+
+------------------------------------------------------
+It's Okay! next,  to synchronous production deployment
+------------------------------------------------------
 
