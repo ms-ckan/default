@@ -226,3 +226,45 @@ Initialize the custom tables
 It's Okay! next,  to synchronous production deployment
 ------------------------------------------------------
 
+Config Apache2
+==============
+
+###1. Create a production.ini File
+
+>`cp /usr/lib/ckan/default/production.ini /etc/ckan/default/production.ini`
+
+###2. Install Apache and mod_wsgi
+
+>`sudo apt-get install apache2 libapache2-mod-wsgi`
+
+###3. Install an email server
+
+>`sudo apt-get install postfix`
+
+###4. Create the WSGI script file
+
+Create your site’s WSGI script file `/etc/ckan/default/apache.wsgi`. 
+
+>`cp /usr/lib/ckan/default/apache.wsgi /etc/ckan/default/apache.wsgi`
+
+###5. Create the Apache config file
+
+Create your site’s Apache config file at `/etc/apache2/sites-available/ckan`.
+
+>`sudo cp /usr/lib/ckan/default/ckan /etc/apache2/sites-available/ckan`
+
+Edit `/etc/apache2/httpd.conf`, and add the following contents:
+
+>`ServerName localhost`
+
+<strong>Tips: remove apache2 default file:<strong>
+>`sudo rm -rf /etc/apache2/sites-enabled/000-default`
+
+###6. Enable your CKAN site
+
+>`sudo a2ensite ckan`<br>
+>`sudo service apache2 reload`<br>
+
+###7. Log files
+
+>`tail -f /var/log/apache2/ckan.error.log`
