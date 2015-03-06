@@ -23,9 +23,8 @@ a.Create a Python virtual environment (virtualenv) to install CKAN into, and act
 >`virtualenv --no-site-packages /usr/lib/ckan/default`<br>
 >`. /usr/lib/ckan/default/bin/activate`<br>
 
-b.Install the CKAN source code into your virtualenv. To install the latest stable release of CKAN (CKAN 2.2.1), run:
+b.Install the CKAN source code into your virtualenv [`. /usr/lib/ckan/default/bin/activate`]. To install the latest stable release of CKAN (CKAN 2.2.1), run:
 
->[into your virtualenv: `. /usr/lib/ckan/default/bin/activate`]<br>
 >`pip install -e 'git+https://github.com/ckan/ckan.git@ckan-2.2.1#egg=ckan'`<br>
 
 c.Install the Python modules that CKAN requires into your virtualenv:
