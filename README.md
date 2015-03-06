@@ -83,14 +83,14 @@ This should refer to the database we created in 3. Setup a PostgreSQL database a
 
 ###5. Setup Solr
 
-a.Edit the Jetty configuration file (/etc/default/jetty) and change the following variables:
+a.Edit the Jetty configuration file (`sudo vim /etc/default/jetty`) and change the following variables:
 
 >`NO_START=0            # (line 4)`<br>
 >`JETTY_HOST=127.0.0.1  # (line 15)`<br>
 >`JETTY_PORT=8983       # (line 18)`<br>
 >`JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64/`
 
-b.Edit the Jetty configuration file(/etc/jetty/start.config) and add a jar:
+b.Edit the Jetty configuration file(`sudo vim /etc/jetty/start.config`) and add a jar:
 
 >`/usr/share/java/tomcat-coyote.jar   #(line 58)`
 
