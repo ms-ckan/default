@@ -143,7 +143,7 @@ Setup Datastore
 ###1. Enable the plugin
 Add the datastore plugin to your CKAN config file:
 
->`ckan.plugins = datastore`
+>`ckan.plugins = (others) datastore`
 
 ###2. Set-up the database
 
@@ -151,16 +151,16 @@ Add the datastore plugin to your CKAN config file:
 
 Create a database_user called datastore_default. This user will be given read-only access to your DataStore database in the Set Permissions step below:
 
->`sudo -u postgres createuser -S -D -R -P -l datastore_default`<br>
+>`sudo -u postgres createuser -S -D -R -P -l datastore_default #(password: datastore_default)`<br>
 
-Create the database (owned by ckan_default), which we’ll call datastore_default:
+Create the database (owned by `ckan_default`), which we’ll call datastore_default:
 
 >`sudo -u postgres createdb -O ckan_default datastore_default -E utf-8`<br>
 
 ####Set URLs
 
->`ckan.datastore.write_url = postgresql://ckan_default:pass@localhost/datastore_default`<br>
->`ckan.datastore.read_url = postgresql://datastore_default:pass@localhost/datastore_default`<br>
+>`ckan.datastore.write_url = postgresql://ckan_default:pass@localhost/datastore_default #(pass: ckan_default)`<br> 
+>`ckan.datastore.read_url = postgresql://datastore_default:pass@localhost/datastore_default #(pass: datastore_default)`<br>
 
 ####Set permissions
 
@@ -172,7 +172,7 @@ Create the database (owned by ckan_default), which we’ll call datastore_defaul
 
 >`. /usr/lib/ckan/default/bin/activate`<br>
 >`paster serve /etc/ckan/default/development.ini`<br>
->`curl -X GET "http://127.0.0.1:5000/api/3/action/datastore_search?rchresource_id=_table_metadata"`
+>`curl -X GET "http://127.0.0.1:5000/api/3/action/datastore_search?resource_id=_table_metadata"`
 
 Setup ckanext-spatial
 =====================
