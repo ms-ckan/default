@@ -133,7 +133,7 @@ who.ini (the Repoze.who configuration file) needs to be accessible in the same d
 ###8. You’re done!
 You can now use the Paste development server to serve CKAN from the command-line. This is a simple and lightweight way to serve CKAN that is useful for development and testing:
 
->`cd /usr/lib/ckan/default/src/ckan`<br>
+>`. /usr/lib/ckan/default/bin/activate`<br>
 >`paster serve /etc/ckan/default/development.ini`<br>
 
 Open `http://127.0.0.1:5000/` in a web browser, and you should see the CKAN front page.
