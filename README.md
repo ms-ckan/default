@@ -156,7 +156,7 @@ Download Civicdata Code from github
 >`/usr/lib/ckan/CivicData/ckan/default/apache2    #(apahce2 start file)`	
 >`/usr/lib/ckan/CivicData/ckan/default/ckan    #(apache2 site config file)` 	
 >`/usr/lib/ckan/CivicData/ckan/default/production.ini    #(ckan config file)` 
->`/usr/lib/ckan/CivicData/ckan/default/123.csv    #(upload test file)` 
+>`/usr/lib/ckan/CivicData/ckan/default/test.csv    #(upload test file)` 
 
 ###3. Copy the file 'production.ini' to `/etc/ckan/default/`.
 
