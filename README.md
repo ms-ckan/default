@@ -45,7 +45,7 @@ Check that the encoding of databases is UTF8, if not internationalisation may be
 
 Next you’ll need to create a database user if one doesn’t already exist. Create a new PostgreSQL database user called ckan_default, and enter a password for the user when prompted. You’ll need this password later:
 
->`sudo -u postgres createuser -S -D -R -P ckan_default`
+>`sudo -u postgres createuser -S -D -R -P ckan_default #(password: ckan_default)` 
 
 Create a new PostgreSQL database, called ckan_default, owned by the database user you just created:
 
