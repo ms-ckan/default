@@ -163,19 +163,16 @@ Download Civicdata Code from github
 
 >`cp /usr/lib/ckan/CivicData/ckan/default/production.ini /etc/ckan/defaul/production.ini`
 
-###4. install plugins
->`. /usr/lib/ckan/default/bin/active #(into your ckan env.)`
-
 Setup Datastore
 ===============
-###1. Enable the plugin
+####1. Enable the plugin
 Add the datastore plugin to your CKAN config file:
 
 >`ckan.plugins = (others) datastore #(production.ini has already exist.)`
 
-###2. Set-up the database
+####2. Set-up the database
 
-####Create users and databases
+#####Create users and databases
 
 Create a database_user called datastore_default. This user will be given read-only access to your DataStore database in the Set Permissions step below:
 
@@ -185,18 +182,18 @@ Create the database (owned by `ckan_default`), which we’ll call datastore_defa
 
 >`sudo -u postgres createdb -O ckan_default datastore_default -E utf-8`<br>
 
-####Set URLs
+#####Set URLs
 
 >`ckan.datastore.write_url = postgresql://ckan_default:pass@localhost/datastore_default #(pass: ckan_default)`<br> 
 >`ckan.datastore.read_url = postgresql://datastore_default:pass@localhost/datastore_default #(pass: datastore_default)`<br>
 
-####Set permissions
+#####Set permissions
 
 >`cd /usr/lib/ckan/default/src/ckan/ckanext/datastore/bin`<br>
 >`python datastore_setup.py –h`<br>
 >`python datastore_setup.py -p postgres ckan_default datastore_default ckan_default ckan_default datastore_default`<br>
 
-###3. Test the set-up
+####3. Test the set-up
 
 >`. /usr/lib/ckan/default/bin/activate`<br>
 >`paster serve /etc/ckan/default/development.ini`<br>
@@ -204,17 +201,17 @@ Create the database (owned by `ckan_default`), which we’ll call datastore_defa
 
 Setup ckanext-spatial
 =====================
-###1. Install PostGIS:
+####1. Install PostGIS:
 
 >`sudo apt-get install postgresql-9.3-postgis-2.1  #(postgresql 9.3)`<br>
 >`sudo apt-get install postgresql-9.1-postgis  #(postgresql 9.1)`<br>
 
-###2. Run the following commands. The first one will create the necessary tables and functions in the database, and the second will populate the spatial reference table:
+####2. Run the following commands. The first one will create the necessary tables and functions in the database, and the second will populate the spatial reference table:
 
 >`sudo -u postgres psql -d ckan_default -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql`<br>
 >`sudo -u postgres psql -d ckan_default -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql`<br>
 
-###3. Change the owner to spatial tables to the CKAN user to avoid errors later on:
+####3. Change the owner to spatial tables to the CKAN user to avoid errors later on:
 Open the Postgres console:
 >`sudo -u postgres psql`
 
@@ -225,16 +222,19 @@ Change the ownership for two spatial tables:
 >`ALTER TABLE spatial_ref_sys OWNER TO ckan_default;`<br>
 >`ALTER TABLE geometry_columns OWNER TO ckan_default;`<br>
 
-###4. Execute the following command to see if PostGIS was properly installed:
+####4. Execute the following command to see if PostGIS was properly installed:
 >`sudo -u postgres psql -d ckan_default -c "SELECT postgis_full_version()"`
 
 You should get something like:
 >` POSTGIS="1.5.3" GEOS="3.2.2-CAPI-1.6.2" PROJ="Rel. 4.7.1, 23 September 2009" LIBXML="2.7.8" USE_STATS`<br>
 >`(1 row)`
 
-###5. Install some other packages needed by the extension dependencies:
+####5. Install some other packages needed by the extension dependencies:
 
 >`sudo apt-get install python-dev libxml2-dev libxslt1-dev libgeos-c1`
+
+### install plugins
+>`. /usr/lib/ckan/default/bin/active #(into your ckan env.)`
 
 a. ckanext-datastorer
 >`cd /usr/lib/ckan/default/src/ckanext-datastorer`<br>
@@ -267,7 +267,6 @@ e. ckanext-api
 #### Init DB.
 >`cd /usr/lib/ckan/default/src/ckanext-api`<br>
 >`paster --plugin=ckan initdb -c /etc/ckan/default/development.ini`<br>
-
 
 Config Apache2
 ==============
