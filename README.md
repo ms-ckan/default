@@ -208,53 +208,75 @@ You should get something like:
 
 >`sudo apt-get install python-dev libxml2-dev libxslt1-dev libgeos-c1`
 
-Initialize the custom tables
-============================
-<Strong>Tips!</Strong>The plugin named ckanext-api is custom extentsion. 
-
-1) Add the plugin:
->`vim /etc/ckan/default/development.ini`<br>
->`ckan.plugins = (others) api`<br>
-
-2) Create tables:
->`. /usr/lib/ckan/default/bin/activate`<br>
->`cd /usr/lib/ckan/default/src/ckanext-api`<br>
->`paster --plugin=ckan initdb -c /etc/ckan/default/development.ini`<br>
-
 It's Okay! next,  to synchronous production deployment
 ------------------------------------------------------
 
-
 Download Civicdata Code from github
 ===================================
-Github: `git clone https://github.com/ms-ckan/default.git`
 
->`cd /usr/lib/ckan/default/`<br>
->`mv src ./src.bak` [backup src dir]<br>
-复制下载的代码
->`cp -R (download file dir)/ckan/default/src /usr/lib/ckan/default`
+###1. 复制代码
+>`cd /usr/lib/ckan/`<br>
+>`git clone -b CivicData_Phase8 https://github.com/Accela-Inc/CivicData.git `<br>
 
-### 相关文件说明
+>`mv /usr/lib/ckan/default/src /usr/lib/ckan/default/src.bak`
+>`cp -R /usr/lib/ckan/CivicData/ckan/default/src /usr/lib/ckan/default/src`
 
->`(download file dir)/ckan/default/apache.wsgi` #(部署到apache2服务器的配置文件)
->`(download file dir)/ckan/default/apache2`	#(apahce2启动文件)
->`(download file dir)/ckan/default/ckan` 	#(apache2站点配置文件)
->`(download file dir)/ckan/default/production.ini`    #(ckan配置文件)、
+###2. 相关文件说明
 
-####1.Copy the file `apache.wsgi` to `/etc/ckan/default/` directory. 
+>`/usr/lib/ckan/CivicData/ckan/default/apache.wsgi` #(部署到apache2服务器的配置文件)
+>`/usr/lib/ckan/CivicData/ckan/default/apache2`	#(apahce2启动文件)
+>`/usr/lib/ckan/CivicData/ckan/default/ckan` 	#(apache2站点配置文件)
+>`/usr/lib/ckan/CivicData/ckan/default/production.ini`    #(ckan配置文件)
 
->`cp apache.wsgi /etc/ckan/default/apache.wsgi` #(Don't change)
+###3. Copy the file `production.ini` to '/etc/ckan/default/' directory.
 
-####2. Copy the file `production.ini` to `/etc/ckan/default/` directory. 
-
->`cp production.ini /etc/ckan/default/production.ini` #(ckan config file)
+>`cp /usr/lib/ckan/CivicData/ckan/default/production.ini /etc/ckan/default/ #(ckan config file)` 
 
 重要配置参数：
+
+###4. 安装插件
+>`. /usr/lib/ckan/default/bin/active #(into your ckan env.)`
+
+a. ckanext-datastorer
+>`cd /usr/lib/ckan/default/src/ckanext-datastorer`<br>
+>`python setup.py develop`<br>
+>`pip install -r /usr/lib/ckan/default/src/ckanext-datastorer/pip-requirements.txt`<br>
+
+b. ckanext-spatial
+>`pip install -e "git+https://github.com/okfn/ckanext-spatial.git@stable#egg=ckanext-spatial"`<br>
+>`pip install -r /usr/lib/ckan/default/src/ckanext-spatial/pip-requirements.txt`<br>
+
+c. ckanext-faq
+>`cd /usr/lib/ckan/default/src/ckanext-faq`<br>
+>`python setup.py develop`<br>
+
+d. ckanext-piwik
+>`cd /usr/lib/ckan/default/src/ckanext-piwik`<br>
+>`python setup.py develop`<br>
+
+e. ckanext-api
+>`cd /usr/lib/ckan/default/src/ckanext-api`<br>
+>`python setup.py develop`<br>
+
+Initialize the custom tables
+============================
+
+`. /usr/lib/ckan/default/bin/activate #(into your env.)`
+
+### Install python packages. 
+
+>`pip install shapely`<br>
+>`pip install geoalchemy`<br>
+>`pip install lxml`<br>
+
+### Init DB.
+>`cd /usr/lib/ckan/default/src/ckanext-api`<br>
+>`paster --plugin=ckan initdb -c /etc/ckan/default/development.ini`<br>
 
 Config Apache2
 ==============
 
-###1. Create a production.ini File
+###1. Create a production.ini File (already exist.)
 
 >`cp /usr/lib/ckan/default/production.ini /etc/ckan/default/production.ini`
 
@@ -270,7 +292,7 @@ Config Apache2
 
 Create your site’s WSGI script file `/etc/ckan/default/apache.wsgi`. 
 
->`cp /usr/lib/ckan/default/apache.wsgi /etc/ckan/default/apache.wsgi`
+>`cp /usr/lib/ckan/default/apache.wsgi /etc/ckan/default/apache.wsgi #(don't change.)`
 
 ###5. Create the Apache config file
 
@@ -278,7 +300,7 @@ Create your site’s Apache config file at `/etc/apache2/sites-available/ckan`.
 
 >`sudo cp /usr/lib/ckan/default/ckan /etc/apache2/sites-available/ckan`
 
-Edit `/etc/apache2/httpd.conf`, and add the following contents:
+Edit `sudo vim /etc/apache2/httpd.conf`, and add the following contents:
 
 >`ServerName localhost`
 
@@ -293,3 +315,17 @@ Edit `/etc/apache2/httpd.conf`, and add the following contents:
 ###7. Log files
 
 >`tail -f /var/log/apache2/ckan.error.log`
+
+###8. make apache2 binding `celeryd`
+
+>`sudo mv /etc/init.d/apach2 /etc/init.d/apache2.bak`<br>
+>`sudo cp /usr/lib/ckan/default.git/apache2 /etc/init.d/apache2`
+>`sudo chmod +x /etc/init.d/apache2`
+
+###9. change permission
+>`sudo chown -R www-data:www-data /var/lib/ckan/ #(www-data: apache2 user and user group)`
+
+now! your ckan restart apache2.
+>`sudo service apache2 restart`
+
+
