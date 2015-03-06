@@ -78,7 +78,7 @@ Edit the development.ini file in a text editor, changing the following options:
 sqlalchemy.url
 This should refer to the database we created in 3. Setup a PostgreSQL database above:
 
->`sqlalchemy.url = postgresql://ckan_default:pass@localhost/ckan_default`
+>`sqlalchemy.url = postgresql://ckan_default:pass@localhost/ckan_default  #(pass: ckan_default)`
 
 
 ###5. Setup Solr
@@ -111,9 +111,9 @@ Now restart Solr:
 
 and check that Solr is running by opening http://localhost:8983/solr/.
 
-d. Finally, change the solr_url setting in your CKAN config file to point to your Solr server, for example:
+d. Finally, change the solr_url setting in your CKAN config file [`vim /etc/ckan/default/development.ini`] to point to your Solr server, for example:
 
->`solr_url=http://127.0.0.1:8983/solr  [vim /etc/ckan/default/development.ini]`
+>`solr_url=http://127.0.0.1:8983/solr`
 
 
 ### 6. Create database tables
