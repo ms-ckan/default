@@ -1,7 +1,7 @@
 CKAN Offical Document：http://docs.ckan.org/en/latest/
 
 <strong>Environment:<strong><br>
-Ubuntu: 12.04 LTS #(14.04 LTS maybe wrong!)<br>
+Ubuntu: 12.04 LTS #(14.04 LTS maybe wrong! [error: No module named _io](https://github.com/ckan/ckan/issues/1651))<br>
 CKAN: 2.2.1<br>
 Apache: 2.2<br>
 PostgreSQL: 9.1
