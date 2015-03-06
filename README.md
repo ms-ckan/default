@@ -138,12 +138,40 @@ You can now use the Paste development server to serve CKAN from the command-line
 
 Open `http://127.0.0.1:5000/` in a web browser, and you should see the CKAN front page.
 
+It's Okay! next,  to synchronous production deployment
+------------------------------------------------------
+
+Download Civicdata Code from github
+===================================
+
+###1. git clone
+>`cd /usr/lib/ckan/`<br>
+>`git clone -b CivicData_Phase8 https://github.com/Accela-Inc/CivicData.git `<br>
+
+>`mv /usr/lib/ckan/default/src /usr/lib/ckan/default/src.bak`<br>
+>`cp -R /usr/lib/ckan/CivicData/ckan/default/src /usr/lib/ckan/default/src`<br>
+
+###2.  related file
+
+>`/usr/lib/ckan/CivicData/ckan/default/apache.wsgi    #(apache2 mod_wsgi file)` 
+>`/usr/lib/ckan/CivicData/ckan/default/apache2    #(apahce2 start file)`	
+>`/usr/lib/ckan/CivicData/ckan/default/ckan    #(apache2 site config file)` 	
+>`/usr/lib/ckan/CivicData/ckan/default/production.ini    #(ckan config file)` 
+>`/usr/lib/ckan/CivicData/ckan/default/123.csv    #(upload test file)` 
+
+###3. Copy the file 'production.ini' to `/etc/ckan/default/`.
+
+>`cp /usr/lib/ckan/CivicData/ckan/default/production.ini /etc/ckan/defaul/production.ini`
+
+###4. install plugins
+>`. /usr/lib/ckan/default/bin/active #(into your ckan env.)`
+
 Setup Datastore
 ===============
 ###1. Enable the plugin
 Add the datastore plugin to your CKAN config file:
 
->`ckan.plugins = (others) datastore`
+>`ckan.plugins = (others) datastore #(production.ini has already exist.)`
 
 ###2. Set-up the database
 
@@ -208,43 +236,15 @@ You should get something like:
 
 >`sudo apt-get install python-dev libxml2-dev libxslt1-dev libgeos-c1`
 
-It's Okay! next,  to synchronous production deployment
-------------------------------------------------------
-
-Download Civicdata Code from github
-===================================
-
-###1. 复制代码
->`cd /usr/lib/ckan/`<br>
->`git clone -b CivicData_Phase8 https://github.com/Accela-Inc/CivicData.git `<br>
-
->`mv /usr/lib/ckan/default/src /usr/lib/ckan/default/src.bak`
->`cp -R /usr/lib/ckan/CivicData/ckan/default/src /usr/lib/ckan/default/src`
-
-###2. 相关文件说明
-
->`/usr/lib/ckan/CivicData/ckan/default/apache.wsgi` #(部署到apache2服务器的配置文件)
->`/usr/lib/ckan/CivicData/ckan/default/apache2`	#(apahce2启动文件)
->`/usr/lib/ckan/CivicData/ckan/default/ckan` 	#(apache2站点配置文件)
->`/usr/lib/ckan/CivicData/ckan/default/production.ini`    #(ckan配置文件)
-
-###3. Copy the file `production.ini` to '/etc/ckan/default/' directory.
-
->`cp /usr/lib/ckan/CivicData/ckan/default/production.ini /etc/ckan/default/ #(ckan config file)` 
-
-重要配置参数：
-
-###4. 安装插件
->`. /usr/lib/ckan/default/bin/active #(into your ckan env.)`
-
 a. ckanext-datastorer
 >`cd /usr/lib/ckan/default/src/ckanext-datastorer`<br>
 >`python setup.py develop`<br>
->`pip install -r /usr/lib/ckan/default/src/ckanext-datastorer/pip-requirements.txt`<br>
+>`pip install -r pip-requirements.txt`<br>
 
 b. ckanext-spatial
->`pip install -e "git+https://github.com/okfn/ckanext-spatial.git@stable#egg=ckanext-spatial"`<br>
->`pip install -r /usr/lib/ckan/default/src/ckanext-spatial/pip-requirements.txt`<br>
+>`cd /usr/lib/ckan/default/src/ckanext-spatial`<br>
+>`pip install -r pip-requirements.txt`<br>
+>`paster --plugin=ckan spatial initdb -c /etc/ckan/default/production.ini`<br>
 
 c. ckanext-faq
 >`cd /usr/lib/ckan/default/src/ckanext-faq`<br>
@@ -258,20 +258,16 @@ e. ckanext-api
 >`cd /usr/lib/ckan/default/src/ckanext-api`<br>
 >`python setup.py develop`<br>
 
-Initialize the custom tables
-============================
-
-`. /usr/lib/ckan/default/bin/activate #(into your env.)`
-
-### Install python packages. 
+#### Install python packages. 
 
 >`pip install shapely`<br>
 >`pip install geoalchemy`<br>
 >`pip install lxml`<br>
 
-### Init DB.
+#### Init DB.
 >`cd /usr/lib/ckan/default/src/ckanext-api`<br>
 >`paster --plugin=ckan initdb -c /etc/ckan/default/development.ini`<br>
+
 
 Config Apache2
 ==============
@@ -327,5 +323,3 @@ Edit `sudo vim /etc/apache2/httpd.conf`, and add the following contents:
 
 now! your ckan restart apache2.
 >`sudo service apache2 restart`
-
-
