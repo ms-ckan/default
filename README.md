@@ -225,6 +225,33 @@ Initialize the custom tables
 It's Okay! next,  to synchronous production deployment
 ------------------------------------------------------
 
+
+Download Civicdata Code from github
+===================================
+Github: `git clone https://github.com/ms-ckan/default.git`
+
+>`cd /usr/lib/ckan/default/`<br>
+>`mv src ./src.bak` [backup src dir]<br>
+复制下载的代码
+>`cp -R (download file dir)/ckan/default/src /usr/lib/ckan/default`
+
+### 相关文件说明
+
+>`(download file dir)/ckan/default/apache.wsgi` #(部署到apache2服务器的配置文件)
+>`(download file dir)/ckan/default/apache2`	#(apahce2启动文件)
+>`(download file dir)/ckan/default/ckan` 	#(apache2站点配置文件)
+>`(download file dir)/ckan/default/production.ini`    #(ckan配置文件)、
+
+####1.Copy the file `apache.wsgi` to `/etc/ckan/default/` directory. 
+
+>`cp apache.wsgi /etc/ckan/default/apache.wsgi` #(Don't change)
+
+####2. Copy the file `production.ini` to `/etc/ckan/default/` directory. 
+
+>`cp production.ini /etc/ckan/default/production.ini` #(ckan config file)
+
+重要配置参数：
+
 Config Apache2
 ==============
 
